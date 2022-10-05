@@ -1,0 +1,50 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: appconfigs.ashcorp.com
+spec:
+  scope: Namespaced
+  group: ashcorp.com
+  names:
+    kind: AppConfig
+    singular: appconfig
+    plural: appconfigs
+  versions: 
+  - name: v1
+    storage: true
+    served: true
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          spec:
+            type: object
+            properties:
+              configmaps:
+                type: array
+                items:
+                  type: string
+              secrets:
+                type: array
+                items:
+                  type: string
+            required:
+            - configmaps
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: appconfig-crd
+rules:
+- apiGroups:
+  - ashcorp.com
+  - apps
+  - ""
+  resources:
+  - appconfig
+  - appconfigs
+  - appconfig/finalizers
+  - deployments
+  - configmaps
+  verbs: [ get, list, create, update, delete, deletecollection, watch, patch ]

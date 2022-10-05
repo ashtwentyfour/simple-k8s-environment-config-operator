@@ -1,0 +1,9 @@
+apiVersion: ashcorp.com/v1
+kind: AppConfig
+metadata:
+  name: appconfig-monitor
+spec:
+  configmaps:
+  - config-1
+  - config-2
+  - envconfig-02

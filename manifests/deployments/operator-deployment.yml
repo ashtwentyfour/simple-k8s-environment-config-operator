@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: appconfig-operator
+  labels:
+    app: appconfig-operator
+spec:
+  selector:
+    matchLabels:
+      app: appconfig-operator
+  template:
+    metadata:
+      labels:
+        app: appconfig-operator
+    spec:
+      serviceAccountName: appconfig-sa
+      containers:
+      - name: kubectl-proxy
+        image: lachlanevenson/k8s-kubectl
+        command: ["kubectl","proxy","--port=8080"]
+      - name: custom-controller
+        image: ashbourne1990/k8s-deployment-envconfig-operator:latest
+        env:
+        - name: NAMESPACE
+          value: default
