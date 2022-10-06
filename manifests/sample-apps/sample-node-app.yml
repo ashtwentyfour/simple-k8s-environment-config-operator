@@ -1,0 +1,46 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-node-api
+  labels:
+    app: node-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: node-api
+  template:
+    metadata:
+      labels:
+        app: node-api
+    spec:
+      containers:
+      - name: bloom-filter
+        image: ashbourne1990/node-bloom-filter-service:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: N_ITEMS
+          valueFrom:
+            configMapKeyRef:
+              name: node-app-config
+              key: n_items
+        - name: F_PROB
+          valueFrom:
+            configMapKeyRef:
+              name: node-app-config
+              key: f_prob
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-api-service
+spec:
+  selector:
+    app: node-api
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8080
+      targetPort: 8080

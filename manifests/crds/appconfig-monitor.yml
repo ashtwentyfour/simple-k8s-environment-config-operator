@@ -4,6 +4,8 @@ metadata:
   name: appconfig-monitor
 spec:
   configmaps:
-  - config-1
-  - config-2
-  - envconfig-02
+  - node-app-config
+  - python-app-config
+  secrets:
+  - node-app-secret
+  - test-env-secret-01

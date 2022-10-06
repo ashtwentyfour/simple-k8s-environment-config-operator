@@ -47,4 +47,5 @@ rules:
   - appconfig/finalizers
   - deployments
   - configmaps
+  - secrets
   verbs: [ get, list, create, update, delete, deletecollection, watch, patch ]
